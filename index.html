@@ -6,41 +6,60 @@
 <title>For Mubarakka 💖</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(180deg, #fdecef, #ffe6f0);
+  background: linear-gradient(180deg, #ffd6e8, #ffeef6);
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+}
+
+/* Floating hearts background */
+.bg-heart {
+  position: absolute;
+  bottom: -50px;
+  font-size: 24px;
+  animation: floatBg 6s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes floatBg {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-800px) scale(1.4); opacity: 0; }
 }
 
 /* iPhone app container */
 .app {
   width: 100%;
-  max-width: 390px; /* iPhone 14 width */
+  max-width: 390px;
   height: 100%;
-  max-height: 844px; /* iPhone 14 height */
-  background: #fff;
+  max-height: 844px;
+  background: white;
   border-radius: 30px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 26px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+  position: relative;
+  z-index: 2;
 }
 
-/* Text */
-h2 {
-  margin-top: 0;
+/* Cute bounce animation */
+.bounce {
+  animation: bounceIn 1s ease;
 }
+
+@keyframes bounceIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+h2 { margin-top: 0; }
 
 p {
   font-size: 16px;
@@ -48,51 +67,63 @@ p {
   color: #444;
 }
 
-h3 {
-  color: #ff4d6d;
+/* Buttons */
+.buttons {
+  margin-top: 25px;
+  position: relative;
+  height: 80px;
 }
 
-/* YES button */
 button {
-  margin-top: 24px;
-  padding: 14px;
+  padding: 14px 22px;
   border-radius: 30px;
   border: none;
-  font-size: 17px;
-  background: linear-gradient(135deg, #ff4d6d, #ff758f);
-  color: white;
+  font-size: 16px;
   cursor: pointer;
-  transition: transform 0.2s ease;
 }
 
-button:active {
-  transform: scale(0.95);
+#yes {
+  background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+  color: white;
+  box-shadow: 0 6px 15px rgba(255,77,109,0.4);
 }
 
-/* Heart animation */
-.heart {
+#no {
+  background: #f2f2f2;
   position: absolute;
-  bottom: -20px;
-  font-size: 22px;
-  animation: floatUp 3s linear forwards;
+  left: 140px;
 }
 
-@keyframes floatUp {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(-600px);
-    opacity: 0;
-  }
+/* Cartoon hearts on YES */
+.pop-heart {
+  position: absolute;
+  font-size: 28px;
+  animation: pop 2s ease forwards;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); opacity: 1; }
+  30% { transform: scale(1.4); }
+  100% { transform: translateY(-200px) scale(0.8); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app" id="app">
+<!-- Background floating hearts -->
+<script>
+for (let i = 0; i < 20; i++) {
+  const h = document.createElement("div");
+  h.className = "bg-heart";
+  h.innerHTML = "💗";
+  h.style.left = Math.random() * 100 + "%";
+  h.style.animationDelay = Math.random() * 5 + "s";
+  document.body.appendChild(h);
+}
+</script>
+
+<div class="app bounce" id="app">
   <h2>Hey Mubarakka 🌸</h2>
 
   <p>
@@ -106,39 +137,45 @@ button:active {
 
   <h3>Will you be my Valentine? 💖</h3>
 
-  <button onclick="yesClicked()">Yes 💕</button>
+  <div class="buttons">
+    <button id="yes" onclick="yesClicked()">Yes 💕</button>
+    <button id="no" onmouseenter="moveNo()">No 🙈</button>
+  </div>
 </div>
 
 <script>
-function yesClicked() {
-  // Hearts animation
-  for (let i = 0; i < 15; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * 100 + "%";
-    document.body.appendChild(heart);
+function moveNo() {
+  const no = document.getElementById("no");
+  no.style.left = Math.random() * 260 + "px";
+  no.style.top = Math.random() * 40 + "px";
+}
 
-    setTimeout(() => {
-      heart.remove();
-    }, 3000);
+function yesClicked() {
+  // cartoon heart burst
+  for (let i = 0; i < 12; i++) {
+    const heart = document.createElement("div");
+    heart.className = "pop-heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 80 + "%";
+    heart.style.top = "60%";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2000);
   }
 
-  // Transition to second screen
+  // switch screen
   setTimeout(() => {
     document.getElementById("app").innerHTML = `
-      <h2>She said YES 💖</h2>
+      <h2 class="bounce">She said YES 💖</h2>
       <p>
-        Mubarakka, you have a gentle magic that makes everything feel lighter.
-        Your smile brings comfort, your presence feels safe,
-        and being with you feels like something truly special.
+        Mubarakka, you’re the kind of happiness that feels effortless.
+        Your smile is contagious, your presence is comforting,
+        and being with you feels like my favorite place.
       </p>
       <p>
-        Thank you for choosing me.
-        Happy Valentine’s Day ❤️
+        Thank you for choosing me 🥹❤️
       </p>
     `;
-  }, 800);
+  }, 700);
 }
 </script>
 

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Mubarakka 💖</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #fdecef, #ffe6f0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  width: 320px;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.buttons {
+  margin-top: 20px;
+  position: relative;
+}
+
+button {
+  padding: 10px 18px;
+  border-radius: 25px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#yes {
+  background: #ff4d6d;
+  color: white;
+}
+
+#no {
+  background: #f3f3f3;
+  position: absolute;
+  left: 120px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Hey Mubarakka 🌸</h2>
+
+  <p>
+    Somewhere between our conversations and smiles,
+    you quietly became my favorite part of the day.
+  </p>
+
+  <p>
+    Life feels warmer, happier, and more beautiful with you in it.
+  </p>
+
+  <h3>Will you be my Valentine? 💖</h3>
+
+  <div class="buttons">
+    <button id="yes" onclick="goYes()">Yes 💕</button>
+    <button id="no" onmouseover="moveNo()">No 🙈</button>
+  </div>
+</div>
+
+<script>
+function moveNo() {
+  const btn = document.getElementById("no");
+  btn.style.left = Math.random() * 200 + "px";
+  btn.style.top = Math.random() * 40 + "px";
+}
+
+function goYes() {
+  document.body.innerHTML = `
+  <div class="card">
+    <h2>She said YES 💖</h2>
+    <p>
+      Mubarakka, you have a way of making everything feel lighter and calmer.
+      Your smile carries warmth, your presence feels comforting,
+      and being with you feels like something truly special.
+    </p>
+    <p>
+      Thank you for choosing me.
+      Happy Valentine’s Day ❤️
+    </p>
+  </div>`;
+}
+</script>
+
+</body>
+</html>

@@ -9,33 +9,45 @@
 *{box-sizing:border-box}
 
 body{
-  margin:0;height:100vh;
+  margin:0;
+  height:100vh;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:linear-gradient(180deg,#ffd6e8,#ffeef6);
-  display:flex;justify-content:center;align-items:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   overflow:hidden;
 }
 
-/* floating background emojis */
+/* Floating background hearts */
 .bg{
-  position:absolute;bottom:-40px;font-size:26px;
-  animation:float 6s linear infinite;opacity:.6
+  position:absolute;
+  bottom:-40px;
+  font-size:26px;
+  animation:float 7s linear infinite;
+  opacity:.6;
 }
 @keyframes float{
   to{transform:translateY(-900px) scale(1.3);opacity:0}
 }
 
-/* iPhone app glass card */
+/* iPhone app container (glass look) */
 .app{
-  width:100%;max-width:390px;height:100%;max-height:844px;
+  width:100%;
+  max-width:390px;
+  height:100%;
+  max-height:844px;
   background:rgba(255,255,255,.6);
   backdrop-filter:blur(12px);
-  border-radius:30px;padding:26px;
+  border-radius:30px;
+  padding:26px;
   box-shadow:0 20px 40px rgba(0,0,0,.18);
-  text-align:center;position:relative;z-index:2
+  text-align:center;
+  position:relative;
+  z-index:2;
 }
 
-/* bounce in */
+/* Entrance animation */
 .bounce{animation:popIn .9s ease}
 @keyframes popIn{
   0%{transform:scale(.6);opacity:0}
@@ -46,37 +58,41 @@ body{
 h2{margin-top:0}
 p{font-size:16px;line-height:1.6;color:#444}
 
-.buttons{margin-top:30px;position:relative;height:140px}
-
-/* YES */
-#yes{
-  padding:14px 24px;border-radius:30px;border:none;
-  font-size:16px;color:#fff;cursor:pointer;
-  background:linear-gradient(135deg,#ff4d6d,#ff85a1);
-  box-shadow:0 6px 15px rgba(255,77,109,.4);
+/* Buttons */
+.buttons{
+  margin-top:30px;
+  position:relative;
+  height:140px;
 }
 
-/* NO (runner) */
-#no{
-  padding:12px 22px;border-radius:30px;border:none;
-  background:#f1f1f1;position:absolute;top:80px;left:120px;
+button{
+  padding:14px 24px;
+  border-radius:30px;
+  border:none;
+  font-size:16px;
   cursor:pointer;
 }
 
-/* screen shake */
-.shake{animation:shake .4s}
-@keyframes shake{
-  0%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  50%{transform:translateX(6px)}
-  75%{transform:translateX(-6px)}
-  100%{transform:translateX(0)}
+/* YES button */
+#yes{
+  background:linear-gradient(135deg,#ff4d6d,#ff85a1);
+  color:white;
+  box-shadow:0 6px 15px rgba(255,77,109,.4);
 }
 
-/* heart burst */
+/* NO button (runner) */
+#no{
+  background:#f1f1f1;
+  position:absolute;
+  top:80px;
+  left:120px;
+}
+
+/* Heart burst animation */
 .pop{
-  position:absolute;font-size:30px;
-  animation:burst 2s ease forwards
+  position:absolute;
+  font-size:30px;
+  animation:burst 2s ease forwards;
 }
 @keyframes burst{
   0%{transform:scale(0);opacity:1}
@@ -88,12 +104,13 @@ p{font-size:16px;line-height:1.6;color:#444}
 
 <body>
 
+<!-- Background emoji rain -->
 <script>
-/* background emoji rain */
-["💗","💖","💘","🥰"].forEach((e)=>{
+["💗","💖","💘","🥰"].forEach(e=>{
   for(let i=0;i<8;i++){
     const b=document.createElement("div");
-    b.className="bg";b.innerHTML=e;
+    b.className="bg";
+    b.innerHTML=e;
     b.style.left=Math.random()*100+"%";
     b.style.animationDelay=Math.random()*6+"s";
     document.body.appendChild(b);
@@ -103,9 +120,16 @@ p{font-size:16px;line-height:1.6;color:#444}
 
 <div class="app bounce" id="app">
   <h2>Hey Mubarakka 🌸</h2>
-  <p>Somewhere between our conversations and smiles,
-     you quietly became my favorite part of the day.</p>
-  <p>Life feels warmer, happier, and more beautiful with you in it.</p>
+
+  <p>
+    Somewhere between our conversations and smiles,
+    you quietly became my favorite part of the day.
+  </p>
+
+  <p>
+    Life feels warmer, happier, and more beautiful with you in it.
+  </p>
+
   <h3>Will you be my Valentine? 💖</h3>
 
   <div class="buttons">
@@ -117,32 +141,49 @@ p{font-size:16px;line-height:1.6;color:#444}
 <script>
 function runNo(){
   const n=document.getElementById("no");
-  n.style.left=Math.random()*260+"px";
-  n.style.top=(80+Math.random()*40)+"px";
-  document.getElementById("app").classList.add("shake");
-  setTimeout(()=>document.getElementById("app").classList.remove("shake"),400);
+  const maxX=260, minY=80, maxY=120;
+  n.style.left=Math.random()*maxX+"px";
+  n.style.top=(minY+Math.random()*(maxY-minY))+"px";
 }
 
 function yesClick(){
-  // heart explosion
-  for(let i=0;i<18;i++){
+  /* Heart explosion */
+  for(let i=0;i<20;i++){
     const h=document.createElement("div");
-    h.className="pop";h.innerHTML="💖";
+    h.className="pop";
+    h.innerHTML="💖";
     h.style.left=Math.random()*80+"%";
     h.style.top="65%";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),2000);
   }
-  // success screen
+
+  /* Second page */
   setTimeout(()=>{
     document.getElementById("app").innerHTML=`
       <h2 class="bounce">She said YES 💖🥹</h2>
+
       <p>
-        Mubarakka, you’re my happy place.
-        Your smile melts worries, your presence feels safe,
-        and loving you feels natural and easy.
+        Mubarakka, this moment means more to me than words can truly explain.
+        You came into my life quietly, yet managed to change the way everything feels.
+        With you, even the simplest days feel lighter, warmer, and full of meaning.
       </p>
-      <p>Thank you for choosing me ❤️✨</p>
+
+      <p>
+        Your smile calms my thoughts, your presence brings peace,
+        and your laughter feels like something I never want to get used to.
+        You have a beautiful way of making people feel safe and valued,
+        and I feel incredibly lucky to be someone you chose.
+      </p>
+
+      <p>
+        Loving you feels natural and effortless.
+        I’m grateful for this moment, for you, and for all the memories we’ll create.
+        Thank you for saying yes, for trusting me,
+        and for being exactly who you are.
+      </p>
+
+      <p><strong>Happy Valentine’s Day ❤️✨</strong></p>
     `;
   },700);
 }

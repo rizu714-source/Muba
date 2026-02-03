@@ -11,174 +11,229 @@
 body{
   margin:0;
   height:100vh;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:linear-gradient(180deg,#ffd6e8,#ffeef6);
+  background:#000;
   display:flex;
   justify-content:center;
   align-items:center;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   overflow:hidden;
 }
 
-/* floating hearts */
-.heart{
-  position:absolute;
-  bottom:-40px;
-  font-size:26px;
-  animation:float 7s linear infinite;
-  opacity:.6;
-}
-@keyframes float{
-  to{transform:translateY(-900px);opacity:0}
-}
-
-/* app container */
+/* iPhone app frame */
 .app{
-  width:100%;
-  max-width:390px;
-  height:100%;
-  max-height:844px;
-  background:rgba(255,255,255,.65);
-  backdrop-filter:blur(12px);
+  width:390px;
+  height:844px;
+  background:linear-gradient(180deg,#ffd6e8,#ffeef6);
   border-radius:30px;
-  padding:26px;
-  box-shadow:0 20px 40px rgba(0,0,0,.2);
-  text-align:center;
+  overflow:hidden;
   position:relative;
-  z-index:2;
 }
 
-h2{margin-top:0}
-p{font-size:16px;line-height:1.6;color:#444}
+/* Screens */
+.screen{
+  position:absolute;
+  inset:0;
+  padding:26px;
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(12px);
+  transform:translateY(100%);
+  transition:.6s ease;
+}
+.screen.active{transform:translateY(0)}
 
+/* Stickers */
+.sticker{
+  width:110px;
+  position:absolute;
+  animation:pop .8s ease;
+}
+.bunny{top:20px;left:20px}
+.teddy{bottom:20px;right:20px}
+
+@keyframes pop{
+  0%{transform:scale(0)}
+  70%{transform:scale(1.1)}
+  100%{transform:scale(1)}
+}
+
+/* Text */
+h2{text-align:center;margin-top:90px}
+p{text-align:center;font-size:16px;line-height:1.7;color:#444}
+
+/* Buttons */
 button{
-  padding:14px 24px;
+  width:100%;
+  padding:14px;
   border:none;
   border-radius:30px;
   font-size:16px;
+  margin-top:14px;
   cursor:pointer;
-  margin:8px;
+}
+.yes{background:#ff4d6d;color:white}
+.no{background:#eee;position:absolute}
+.gift{background:#ff9fb8;color:white}
+.back{background:#ddd}
+
+/* Animations for gifts */
+.fadeIn{animation:fade 1s ease}
+@keyframes fade{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
-.yes{
-  background:linear-gradient(135deg,#ff4d6d,#ff85a1);
-  color:white;
-  box-shadow:0 6px 15px rgba(255,77,109,.4);
+/* Roses */
+.rose{
+  font-size:70px;
+  text-align:center;
+  animation:float 2s ease infinite alternate;
+}
+@keyframes float{
+  from{transform:translateY(0)}
+  to{transform:translateY(-10px)}
 }
 
-.no{
-  background:#eee;
+/* Envelope */
+.envelope{
+  width:150px;
+  height:100px;
+  background:#ff6f91;
+  margin:30px auto;
+  border-radius:8px;
+  position:relative;
+  cursor:pointer;
+  animation:fade 1s ease;
+}
+.envelope:before{
+  content:"";
   position:absolute;
+  inset:0;
+  background:#ff8fab;
+  clip-path:polygon(0 0,100% 0,50% 55%);
+  transition:.6s;
+}
+.envelope.open:before{
+  transform:rotateX(180deg);
+  opacity:0;
 }
 
-.gift{
-  background:#ff9fb8;
-  color:white;
-  width:100%;
-  margin-top:10px;
-}
-
-.back{
-  background:#ddd;
-  margin-top:20px;
+/* Love letter paper */
+.note{
+  background:#fff8c6;
+  padding:20px;
+  border-radius:12px;
+  font-family:cursive;
+  box-shadow:0 8px 20px rgba(0,0,0,.2);
+  animation:fade 1.2s ease;
 }
 </style>
 </head>
 
 <body>
 
+<div class="app">
+
+<!-- SCREEN 1 -->
+<div class="screen active" id="s1">
+  <img src="https://i.imgur.com/4AiXzf8.png" class="sticker bunny">
+  <img src="https://i.imgur.com/1XKzK7p.png" class="sticker teddy">
+
+  <h2>Hey Mubarakka 🌸</h2>
+  <p>
+    Somewhere between our conversations and the little smiles we shared,
+    you quietly became the most comforting part of my day.
+  </p>
+  <p>Will you be my Valentine? 💖</p>
+
+  <button class="yes" onclick="go(2)">Yes 💕</button>
+  <button class="no" id="no" onmouseenter="runNo()">No 🙈</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen" id="s2">
+  <img src="https://i.imgur.com/1XKzK7p.png" class="sticker bunny">
+  <img src="https://i.imgur.com/4AiXzf8.png" class="sticker teddy">
+
+  <h2>Yay, you said YES! 💖</h2>
+  <p>
+    I wanted to do something special for you,
+    so I made these little gifts straight from my heart.
+  </p>
+
+  <button class="gift" onclick="go(3)">🎁 Gift 1</button>
+  <button class="gift" onclick="go(4)">🎁 Gift 2</button>
+  <button class="gift" onclick="go(5)">🎁 Gift 3</button>
+</div>
+
+<!-- GIFT 1 -->
+<div class="screen" id="s3">
+  <h2>🌹 A Rose for You 🌹</h2>
+  <div class="rose">💐💐💐</div>
+
+  <p class="fadeIn">
+    This rose is for every moment you made me smile without even trying.
+    For every conversation that felt warm,
+    and for every time your presence made things feel lighter.
+    Just like these flowers, my feelings for you are genuine and constant.
+  </p>
+
+  <button class="back" onclick="go(2)">⬅ Back</button>
+</div>
+
+<!-- GIFT 2 -->
+<div class="screen" id="s4">
+  <h2>💌 A Little Message</h2>
+  <div class="envelope" onclick="openLetter(this)"></div>
+
+  <p id="envText" class="fadeIn" style="display:none">
+    Every little thing about you matters to me.
+    The way you talk, the way you smile,
+    and the way you make people feel comfortable just by being yourself.
+    Loving you doesn’t feel forced —
+    it feels calm, safe, and incredibly real.
+  </p>
+
+  <button class="back" onclick="go(2)">⬅ Back</button>
+</div>
+
+<!-- GIFT 3 -->
+<div class="screen" id="s5">
+  <h2>To the Love of My Life ❤️</h2>
+
+  <div class="note">
+    Mubarakka, you came into my life so quietly,
+    yet you changed everything in the most beautiful way.
+    With you, love feels gentle and reassuring,
+    like something I never want to lose.
+    <br><br>
+    You make ordinary days feel meaningful,
+    and even silence feels comfortable when it’s shared with you.
+    I’m grateful for you, for this moment,
+    and for every memory we’re yet to create together.
+    <br><br>
+    Always. Forever. 💖
+  </div>
+
+  <button class="back" onclick="go(2)">⬅ Back</button>
+</div>
+
+</div>
+
 <script>
-/* background hearts */
-for(let i=0;i<25;i++){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"%";
-  h.style.animationDelay=Math.random()*6+"s";
-  document.body.appendChild(h);
+function go(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
 }
-</script>
 
-<div class="app" id="app"></div>
-
-<script>
-/* SCREEN 1 */
-function screen1(){
-  document.getElementById("app").innerHTML=`
-    <h2>Hey Mubarakka 🌸</h2>
-    <p>
-      Somewhere between our conversations and smiles,
-      you quietly became my favorite part of the day.
-    </p>
-    <p>Will you be my Valentine? 💖</p>
-
-    <button class="yes" onclick="screen2()">Yes 💕</button>
-    <button class="no" id="no" onmouseenter="runNo()">No 🙈</button>
-  `;
-}
-screen1();
-
-/* NO button runs */
 function runNo(){
   const n=document.getElementById("no");
-  n.style.left=Math.random()*250+"px";
-  n.style.top=(200+Math.random()*80)+"px";
+  n.style.left=Math.random()*220+"px";
+  n.style.top=(260+Math.random()*120)+"px";
 }
 
-/* SCREEN 2 – YES RESULT */
-function screen2(){
-  document.getElementById("app").innerHTML=`
-    <h2>Yay, you said YES! 💖</h2>
-    <p>I made all these for you hehe 🥹</p>
-
-    <button class="gift" onclick="gift1()">🎁 Gift 1</button>
-    <button class="gift" onclick="gift2()">🎁 Gift 2</button>
-    <button class="gift" onclick="gift3()">🎁 Gift 3</button>
-  `;
-}
-
-/* GIFT 1 – ROSES */
-function gift1(){
-  document.getElementById("app").innerHTML=`
-    <h2>🌹 Rose Bouquet 🌹</h2>
-    <div style="font-size:60px">💐💐💐</div>
-    <p>I will always love you, no matter what.</p>
-    <p>You are the best part of my life ❤️</p>
-    <button class="back" onclick="screen2()">⬅ Back</button>
-  `;
-}
-
-/* GIFT 2 – SHORT MESSAGES */
-function gift2(){
-  document.getElementById("app").innerHTML=`
-    <h2>💌 Little Things I Feel</h2>
-    <p>• You will forever be my only option</p>
-    <p>• I can’t imagine my life without you</p>
-    <p>• Loving you feels easy and safe</p>
-    <button class="back" onclick="screen2()">⬅ Back</button>
-  `;
-}
-
-/* GIFT 3 – LONG LOVE LETTER */
-function gift3(){
-  document.getElementById("app").innerHTML=`
-    <h2>To the Love of My Life ❤️</h2>
-
-    <p>
-      You make my life so meaningful, and I am so lucky
-      to have you as my Valentine this year.
-    </p>
-
-    <p>
-      I love you wholeheartedly and I can’t wait
-      to continue loving you for the rest of my life.
-      I know I tell you this every day, but you are
-      literally the most beautiful girl I know.
-    </p>
-
-    <p><strong>Always. Forever. 💖</strong></p>
-
-    <button class="back" onclick="screen2()">⬅ Back</button>
-  `;
+function openLetter(el){
+  el.classList.add("open");
+  document.getElementById("envText").style.display="block";
 }
 </script>
 

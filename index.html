@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Mubarakka 💖</title>
 
 <style>
@@ -19,8 +19,8 @@ body{
   overflow:hidden;
 }
 
-/* Floating background hearts */
-.bg{
+/* floating hearts */
+.heart{
   position:absolute;
   bottom:-40px;
   font-size:26px;
@@ -28,164 +28,157 @@ body{
   opacity:.6;
 }
 @keyframes float{
-  to{transform:translateY(-900px) scale(1.3);opacity:0}
+  to{transform:translateY(-900px);opacity:0}
 }
 
-/* iPhone app container (glass look) */
+/* app container */
 .app{
   width:100%;
   max-width:390px;
   height:100%;
   max-height:844px;
-  background:rgba(255,255,255,.6);
+  background:rgba(255,255,255,.65);
   backdrop-filter:blur(12px);
   border-radius:30px;
   padding:26px;
-  box-shadow:0 20px 40px rgba(0,0,0,.18);
+  box-shadow:0 20px 40px rgba(0,0,0,.2);
   text-align:center;
   position:relative;
   z-index:2;
 }
 
-/* Entrance animation */
-.bounce{animation:popIn .9s ease}
-@keyframes popIn{
-  0%{transform:scale(.6);opacity:0}
-  60%{transform:scale(1.05)}
-  100%{transform:scale(1);opacity:1}
-}
-
 h2{margin-top:0}
 p{font-size:16px;line-height:1.6;color:#444}
 
-/* Buttons */
-.buttons{
-  margin-top:30px;
-  position:relative;
-  height:140px;
-}
-
 button{
   padding:14px 24px;
-  border-radius:30px;
   border:none;
+  border-radius:30px;
   font-size:16px;
   cursor:pointer;
+  margin:8px;
 }
 
-/* YES button */
-#yes{
+.yes{
   background:linear-gradient(135deg,#ff4d6d,#ff85a1);
   color:white;
   box-shadow:0 6px 15px rgba(255,77,109,.4);
 }
 
-/* NO button (runner) */
-#no{
-  background:#f1f1f1;
+.no{
+  background:#eee;
   position:absolute;
-  top:80px;
-  left:120px;
 }
 
-/* Heart burst animation */
-.pop{
-  position:absolute;
-  font-size:30px;
-  animation:burst 2s ease forwards;
+.gift{
+  background:#ff9fb8;
+  color:white;
+  width:100%;
+  margin-top:10px;
 }
-@keyframes burst{
-  0%{transform:scale(0);opacity:1}
-  30%{transform:scale(1.4)}
-  100%{transform:translateY(-260px) scale(.8);opacity:0}
+
+.back{
+  background:#ddd;
+  margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Background emoji rain -->
 <script>
-["💗","💖","💘","🥰"].forEach(e=>{
-  for(let i=0;i<8;i++){
-    const b=document.createElement("div");
-    b.className="bg";
-    b.innerHTML=e;
-    b.style.left=Math.random()*100+"%";
-    b.style.animationDelay=Math.random()*6+"s";
-    document.body.appendChild(b);
-  }
-});
+/* background hearts */
+for(let i=0;i<25;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"%";
+  h.style.animationDelay=Math.random()*6+"s";
+  document.body.appendChild(h);
+}
 </script>
 
-<div class="app bounce" id="app">
-  <h2>Hey Mubarakka 🌸</h2>
-
-  <p>
-    Somewhere between our conversations and smiles,
-    you quietly became my favorite part of the day.
-  </p>
-
-  <p>
-    Life feels warmer, happier, and more beautiful with you in it.
-  </p>
-
-  <h3>Will you be my Valentine? 💖</h3>
-
-  <div class="buttons">
-    <button id="yes" onclick="yesClick()">Yes 💕</button>
-    <button id="no" onmouseenter="runNo()">No 🙈</button>
-  </div>
-</div>
+<div class="app" id="app"></div>
 
 <script>
+/* SCREEN 1 */
+function screen1(){
+  document.getElementById("app").innerHTML=`
+    <h2>Hey Mubarakka 🌸</h2>
+    <p>
+      Somewhere between our conversations and smiles,
+      you quietly became my favorite part of the day.
+    </p>
+    <p>Will you be my Valentine? 💖</p>
+
+    <button class="yes" onclick="screen2()">Yes 💕</button>
+    <button class="no" id="no" onmouseenter="runNo()">No 🙈</button>
+  `;
+}
+screen1();
+
+/* NO button runs */
 function runNo(){
   const n=document.getElementById("no");
-  const maxX=260, minY=80, maxY=120;
-  n.style.left=Math.random()*maxX+"px";
-  n.style.top=(minY+Math.random()*(maxY-minY))+"px";
+  n.style.left=Math.random()*250+"px";
+  n.style.top=(200+Math.random()*80)+"px";
 }
 
-function yesClick(){
-  /* Heart explosion */
-  for(let i=0;i<20;i++){
-    const h=document.createElement("div");
-    h.className="pop";
-    h.innerHTML="💖";
-    h.style.left=Math.random()*80+"%";
-    h.style.top="65%";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),2000);
-  }
+/* SCREEN 2 – YES RESULT */
+function screen2(){
+  document.getElementById("app").innerHTML=`
+    <h2>Yay, you said YES! 💖</h2>
+    <p>I made all these for you hehe 🥹</p>
 
-  /* Second page */
-  setTimeout(()=>{
-    document.getElementById("app").innerHTML=`
-      <h2 class="bounce">She said YES 💖🥹</h2>
+    <button class="gift" onclick="gift1()">🎁 Gift 1</button>
+    <button class="gift" onclick="gift2()">🎁 Gift 2</button>
+    <button class="gift" onclick="gift3()">🎁 Gift 3</button>
+  `;
+}
 
-      <p>
-        Mubarakka, this moment means more to me than words can truly explain.
-        You came into my life quietly, yet managed to change the way everything feels.
-        With you, even the simplest days feel lighter, warmer, and full of meaning.
-      </p>
+/* GIFT 1 – ROSES */
+function gift1(){
+  document.getElementById("app").innerHTML=`
+    <h2>🌹 Rose Bouquet 🌹</h2>
+    <div style="font-size:60px">💐💐💐</div>
+    <p>I will always love you, no matter what.</p>
+    <p>You are the best part of my life ❤️</p>
+    <button class="back" onclick="screen2()">⬅ Back</button>
+  `;
+}
 
-      <p>
-        Your smile calms my thoughts, your presence brings peace,
-        and your laughter feels like something I never want to get used to.
-        You have a beautiful way of making people feel safe and valued,
-        and I feel incredibly lucky to be someone you chose.
-      </p>
+/* GIFT 2 – SHORT MESSAGES */
+function gift2(){
+  document.getElementById("app").innerHTML=`
+    <h2>💌 Little Things I Feel</h2>
+    <p>• You will forever be my only option</p>
+    <p>• I can’t imagine my life without you</p>
+    <p>• Loving you feels easy and safe</p>
+    <button class="back" onclick="screen2()">⬅ Back</button>
+  `;
+}
 
-      <p>
-        Loving you feels natural and effortless.
-        I’m grateful for this moment, for you, and for all the memories we’ll create.
-        Thank you for saying yes, for trusting me,
-        and for being exactly who you are.
-      </p>
+/* GIFT 3 – LONG LOVE LETTER */
+function gift3(){
+  document.getElementById("app").innerHTML=`
+    <h2>To the Love of My Life ❤️</h2>
 
-      <p><strong>Happy Valentine’s Day ❤️✨</strong></p>
-    `;
-  },700);
+    <p>
+      You make my life so meaningful, and I am so lucky
+      to have you as my Valentine this year.
+    </p>
+
+    <p>
+      I love you wholeheartedly and I can’t wait
+      to continue loving you for the rest of my life.
+      I know I tell you this every day, but you are
+      literally the most beautiful girl I know.
+    </p>
+
+    <p><strong>Always. Forever. 💖</strong></p>
+
+    <button class="back" onclick="screen2()">⬅ Back</button>
+  `;
 }
 </script>
 
